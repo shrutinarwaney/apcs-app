@@ -14,7 +14,7 @@ public class App extends JFrame {
         EventQueue.invokeLater(() -> {
             App app = new App();
             app.setVisible(true);
-        });
+        }); 
     }
     
     public App(){
