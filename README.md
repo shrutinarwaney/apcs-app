@@ -1,6 +1,10 @@
-## Getting Started
+` $ javac App.java` 
+  
+` $ java App `
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
+And then choose a calculator by clicking one of the buttons, then enter valid inputs into the text boxes.
+
+
 
 ## Folder Structure
 
