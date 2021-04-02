@@ -1,21 +1,63 @@
 public class Kinematic extends Calculation {
     
-    private double vi;
-    private double vf;
-    private double a;
-    private double t;
+    private Double vi;
+    private Double vf;
+    private Double a;
+    private Double t;
+
+    private int falseCount = 0;
     
-    public String calculate( String inputs ) {
-        return "";
+    public String[] calculate() {
+        String[] calculation = {getvi(), getvf(), geta(), gett()};
+        for( String s : calculation ) {
+            System.out.println( s );
+        }
+        return calculation;
     }
 
-    public Kinematic ( double vi, double vf, double a, double t, boolean viTest, boolean vfTest, boolean aTest, boolean tTest) {
-        this.vi = vi;
-        this.vf = vf;
-        this.a = a;
-        this.t = t;
+    public String historyDisplay() { // thisa is a history display
+        String result = "";
+        result += "Initial velocity: " + vi;
+        result += "\nFinal velocity: " + vf;
+        result += "\nAcceleration: " + a;
+        result += "\nTime: " + t + "\n";
+        return result;
+    }
+
+    public Kinematic ( String viTxt, String vfTxt, String aTxt, String tTxt, boolean viTest, boolean vfTest, boolean aTest, boolean tTest) {
+        falseCount = 0;
+
+        if (viTxt.length() == 0){
+            this.vi = null;
+            falseCount++;
+        } else {
+            this.vi = Double.parseDouble(viTxt);
+        }
+
+        if( vfTxt.length() == 0 ) {
+            this.vf = null;
+            falseCount++;
+        } else {
+            this.vf = Double.parseDouble(vfTxt);    
+        }
+
+        if( aTxt.length() == 0 ) {
+            this.a = null;
+            falseCount++;
+        } else {
+            this.a = Double.parseDouble(aTxt);    
+        }
+
+        if (tTxt.length() == 0){
+            this.t = null;
+            falseCount++;
+        } else {
+            this.t = Double.parseDouble(tTxt);
+        }
         
-        if ( viTest) {
+        if( falseCount > 1) {
+            
+        } else if ( viTest) {
             calculateInitial();
         } else if ( vfTest ) {
             calculateFinal();
@@ -42,8 +84,28 @@ public class Kinematic extends Calculation {
         t = (vf - vi)/a;
     }
     
-    public String getvf() { return String.valueOf(vf); }
-    public String getvi() { return String.valueOf(vi); }
-    public String geta() { return String.valueOf(a); }
-    public String gett() { return String.valueOf(t); }
+    public String getvf() { 
+        if (falseCount > 1 && vf == null) {
+            return "INVALID INPUTS";
+        }
+        return String.valueOf(vf); 
+    }
+    public String getvi() { 
+        if (falseCount > 1 && vi == null) {
+            return "INVALID INPUTS";
+        }
+        return String.valueOf(vi);  
+    }
+    public String geta() { 
+        if (falseCount > 1 && a == null) {
+            return "INVALID INPUTS";
+        }
+        return String.valueOf(a);  
+    }
+    public String gett() { 
+        if (falseCount > 1 && t == null) {
+            return "INVALID INPUTS";
+        }
+        return String.valueOf(t); 
+    }
 }

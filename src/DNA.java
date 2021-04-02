@@ -12,11 +12,28 @@ public class DNA extends Calculation {
         createmRNA();
     }
 
+    public String[] calculate() {
+        String[] calculation = {getDNA(), getmRNA(), getComplimentary()};
+        return calculation;
+    }
+
+    public String historyDisplay() {
+        String result = "";
+        result += "DNA strand: " + getDNA();
+        result += "\nmRNA strand: " + getmRNA();
+        result += "\nComplimentary DNA strand: " + getComplimentary() + "\n";
+        return result;
+    }
+
     private void createComplimentary() {
-        cStrand = dna.replaceAll( "A", "T" );
-        cStrand = cStrand.replaceAll( "G", "C" );
+        cStrand = dna.replaceAll( "A", "V" );
+        cStrand = cStrand.replaceAll( "G", "W" );
         cStrand = cStrand.replaceAll( "C", "G" );
         cStrand = cStrand.replaceAll( "T", "A" );
+        cStrand = cStrand.replaceAll( "V", "T" );
+        cStrand = cStrand.replaceAll( "W", "C" );
+
+        
     }
 
     private void createmRNA() {

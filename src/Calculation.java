@@ -1,3 +1,4 @@
 public abstract class Calculation {
-    public abstract String calculate( String in );
+    public abstract String[] calculate();
+    public abstract String historyDisplay();
 }
