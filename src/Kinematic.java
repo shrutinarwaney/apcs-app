@@ -1,4 +1,7 @@
-public class Kinematic extends Calculation {
+
+import java.io.*;
+
+public class Kinematic extends Calculation implements Serializable {
     
     private Double vi;
     private Double vf;
@@ -9,18 +12,18 @@ public class Kinematic extends Calculation {
     
     public String[] calculate() {
         String[] calculation = {getvi(), getvf(), geta(), gett()};
-        for( String s : calculation ) {
-            System.out.println( s );
-        }
+        // for( String s : calculation ) {
+        //     System.out.println( s );
+        // }
         return calculation;
     }
 
     public String historyDisplay() { // thisa is a history display
         String result = "";
         result += "Initial velocity: " + vi;
-        result += "\nFinal velocity: " + vf;
-        result += "\nAcceleration: " + a;
-        result += "\nTime: " + t + "\n";
+        result += " Final velocity: " + vf;
+        result += " Acceleration: " + a;
+        result += " Time: " + t + "\n";
         return result;
     }
 
@@ -85,27 +88,56 @@ public class Kinematic extends Calculation {
     }
     
     public String getvf() { 
+        String s = "";
+        
         if (falseCount > 1 && vf == null) {
             return "INVALID INPUTS";
         }
-        return String.valueOf(vf); 
+        
+        s = String.valueOf(vf);
+        while( s.length() < 100 ) {
+            s = s + " ";
+        }
+        
+        return s;
     }
     public String getvi() { 
+        String s = "";
+        
         if (falseCount > 1 && vi == null) {
             return "INVALID INPUTS";
         }
-        return String.valueOf(vi);  
+        
+        s = String.valueOf(vi);
+        while( s.length() < 50 ) {
+            s = s + " ";
+        }
+        
+        return s;  
     }
     public String geta() { 
+        String s = "";
+        
         if (falseCount > 1 && a == null) {
             return "INVALID INPUTS";
         }
-        return String.valueOf(a);  
+        s = String.valueOf(a); 
+        
+        while( s.length() < 50 ) {
+            s = s + " ";
+        }
+        return s;
     }
     public String gett() { 
+        String s = "";
         if (falseCount > 1 && t == null) {
             return "INVALID INPUTS";
         }
-        return String.valueOf(t); 
+        s = String.valueOf(t); 
+
+        while( s.length() < 50 ) {
+            s = s + " ";
+        }
+        return s;        
     }
 }

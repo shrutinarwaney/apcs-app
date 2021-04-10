@@ -1,0 +1,14 @@
+DNA strand: AG                                                 mRNA strand: AG                                                 Complimentary DNA strand: TC
+
+Initial velocity: 1.0 Final velocity: 11.0 Acceleration: 1.0 Time: 10.0
+
+Initial velocity: 1.0 Final velocity: 11.0 Acceleration: 1.0 Time: 10.0
+
+DNA strand: AGAGAGAGA                                          mRNA strand: AGAGAGAGA                                          Complimentary DNA strand: TCTCTCTCT
+
+DNA strand: AGAGAGAGAGAGAGAAGAGAGAG                            mRNA strand: AGAGAGAGAGAGAGAAGAGAGAG                            Complimentary DNA strand: TCTCTCTCTCTCTCTTCTCTCTC
+
+DNA strand: ABABAABA                                           mRNA strand: ABABAABA                                           Complimentary DNA strand: TBTBTTBT
+
+Initial velocity: 1.0 Final velocity: 11.0 Acceleration: 1.0 Time: 10.0
+

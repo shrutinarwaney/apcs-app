@@ -1,6 +1,6 @@
-import java.util.*;
+import java.io.*;
 
-public class DNA extends Calculation {
+public class DNA extends Calculation implements Serializable {
     
     private String dna;
     private String cStrand;
@@ -20,8 +20,8 @@ public class DNA extends Calculation {
     public String historyDisplay() {
         String result = "";
         result += "DNA strand: " + getDNA();
-        result += "\nmRNA strand: " + getmRNA();
-        result += "\nComplimentary DNA strand: " + getComplimentary() + "\n";
+        result += " mRNA strand: " + getmRNA();
+        result += " Complimentary DNA strand: " + getComplimentary() + "\n";
         return result;
     }
 
@@ -41,7 +41,17 @@ public class DNA extends Calculation {
     }
 
     public String getComplimentary() { return cStrand; }
-    public String getmRNA() { return mrna; }
-    public String getDNA() { return dna; }
+    public String getmRNA() {
+        while ( mrna.length() < 50 ) {
+            mrna += " ";
+        }
+        return mrna; 
+    }
+    public String getDNA() { 
+        while( dna.length() < 50 ) {
+            dna += " ";
+        }
+        return dna;
+    }
 
 }

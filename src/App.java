@@ -19,12 +19,13 @@ import javax.swing.event.DocumentListener;
 public class App extends JFrame {
     private JFrame kinFrame;
     private JFrame dnaFrame;
+    private JFrame hFrame;
     
     private JPanel panel;
     private JLabel text;
     private JButton buttonDNA;
     private JButton buttonKin;
-    // private JButton buttonHis;
+    private JButton buttonHis;
 
     private JPanel dnaPanel;
     private JTextField dnaField;
@@ -47,15 +48,17 @@ public class App extends JFrame {
     private JButton kCalcButton;
     
     private JPanel hPanel;
+    private JLabel historyString;
+    
+    Calculator calculator;
+    CalculatorReader calculatorReader;
 
-    private Scanner fScan;
-    private File file;
+    private JButton backButton;
     
     public static void main(String[] args) throws Exception {
         EventQueue.invokeLater(() -> {
             try {
-                App app = new App();
-                app.setVisible(true);
+                new App();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -64,7 +67,12 @@ public class App extends JFrame {
     }
     
     public App() throws Exception {
+        setVisible(true);
         setTitle("Shrulenzie's Science Calculator");
+        calculatorReader = new CalculatorReader();
+        calculator = new Calculator( calculatorReader.getCalculations() );
+        System.out.println("HHHHHHHHHHH");
+        System.out.println(calculator.calculations);
         setSize(1000,800);
         setLocationRelativeTo(null); // centers window on the screen
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -112,23 +120,27 @@ public class App extends JFrame {
             }
         });
 
-        // buttonHis = new JButton("History");
-        // buttonHis.setBounds(600, 100, 200, 40); // same as this.getBounds()
-        // buttonHis.addActionListener(new ActionListener() { // ActionListener is an interface that defines one function => actionPerformed()
-        //     @Override 
-        //     public void actionPerformed(ActionEvent e) {
-        //         history();
-        //     }
-        // });
+        buttonHis = new JButton("History");
+        buttonHis.setBounds(600, 100, 200, 40); // same as this.getBounds()
+        buttonHis.addActionListener(new ActionListener() { // ActionListener is an interface that defines one function => actionPerformed()
+            @Override 
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    panel.revalidate();
+                    panel.repaint();
+                    history();
+                } catch( Exception ex ) {
+                    ex.printStackTrace();
+                }
+            }
+        });
         
         panel.add(buttonDNA);
         panel.add(buttonKin);
-        // panel.add(buttonHis);
+        panel.add(buttonHis);
     }
 
-    public void kinematic() throws Exception {        
-        int fullCount = 0;
-       
+    public void kinematic() throws Exception {               
         kinFrame = new JFrame();
         kPanel = new JPanel();
         kinFrame.setTitle("Kinematic Calculator");
@@ -139,7 +151,6 @@ public class App extends JFrame {
         kinFrame.add(kPanel);
         kinFrame.setVisible(true);
         kinFrame.setSize(1000,800);
-        kinFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);
         
         gl.setAutoCreateGaps(true);
         gl.setAutoCreateContainerGaps(true);
@@ -195,6 +206,7 @@ public class App extends JFrame {
                 boolean tEmpty = ( tField.getText().equals("") );
                 
                 Kinematic kinematic = new Kinematic( viField.getText(), vfField.getText(), aField.getText(), tField.getText(), viEmpty, vfEmpty, aEmpty, tEmpty );
+                calculator.newInput(kinematic.historyDisplay());
                 String[] kinematicResults = kinematic.calculate();
                 
                 viField.setText( kinematicResults[ 0 ] );
@@ -208,10 +220,23 @@ public class App extends JFrame {
             };
         });
 
+        backButton = new JButton("Back");
+        backButton.addActionListener(new ActionListener() { 
+            @Override 
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    goBack();
+                    kinFrame.dispose();
+                } catch( Exception ex ) {
+                    ex.printStackTrace();
+                }
+            }
+        });
+
         gl.setHorizontalGroup(gl.createSequentialGroup()
                 .addGroup(gl.createParallelGroup(TRAILING)
-                        .addComponent(vfLabel)
                         .addComponent(viLabel)
+                        .addComponent(vfLabel)
                         .addComponent(aLabel)
                         .addComponent(tLabel))
                 .addGroup(gl.createParallelGroup()
@@ -220,27 +245,26 @@ public class App extends JFrame {
                         .addComponent(aField)
                         .addComponent(tField))
                 .addGroup(gl.createParallelGroup()
-                         .addComponent(kCalcButton))  
+                         .addComponent(kCalcButton)
+                         .addComponent(backButton))
         );
 
         gl.setVerticalGroup(gl.createSequentialGroup()
                 .addGroup(gl.createParallelGroup(BASELINE)
-                        .addComponent(vfLabel)
-                        .addComponent(vfField)
+                        .addComponent(viLabel)
+                        .addComponent(viField)
                         .addComponent(kCalcButton))
                 .addGroup(gl.createParallelGroup(BASELINE)
-                        .addComponent(viLabel)
-                        .addComponent(viField))
+                        .addComponent(vfLabel)
+                        .addComponent(vfField)
+                        .addComponent(backButton))
                 .addGroup(gl.createParallelGroup(BASELINE)
                         .addComponent(aLabel)
                         .addComponent(aField))
                 .addGroup(gl.createParallelGroup(BASELINE)
                         .addComponent(tLabel)
                         .addComponent(tField))
-        );
-
-        pack();
-        
+        );        
     }
 
     public void dna() throws Exception {       
@@ -254,7 +278,6 @@ public class App extends JFrame {
         dnaFrame.add(dnaPanel);
         dnaFrame.setVisible(true);
         dnaFrame.setSize(1000,800);
-        dnaFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);
         
         gl.setAutoCreateGaps(true);
         gl.setAutoCreateContainerGaps(true);
@@ -275,12 +298,26 @@ public class App extends JFrame {
              @Override 
              public void actionPerformed(ActionEvent e) {
                 DNA dna = new DNA( dnaField.getText() );
+                calculator.newInput(dna.historyDisplay());
                 String[] results = dna.calculate();
                 dnaField.setText(results[0]);
                 mrnaField.setText(results[1]);
                 compField.setText(results[2]);
 
             };
+        });
+
+        backButton = new JButton("Back");
+        backButton.addActionListener(new ActionListener() { 
+            @Override 
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    goBack();
+                    dnaFrame.dispose();
+                } catch( Exception ex ) {
+                    ex.printStackTrace();
+                }
+            }
         });
 
         gl.setHorizontalGroup(gl.createSequentialGroup()
@@ -293,7 +330,8 @@ public class App extends JFrame {
                         .addComponent(mrnaField)
                         .addComponent(compField))
                 .addGroup(gl.createParallelGroup()
-                         .addComponent(dnaConvertButton))  
+                         .addComponent(dnaConvertButton) 
+                         .addComponent(backButton)) 
         );
 
         gl.setVerticalGroup(gl.createSequentialGroup()
@@ -303,19 +341,69 @@ public class App extends JFrame {
                         .addComponent(dnaConvertButton))
                 .addGroup(gl.createParallelGroup(BASELINE)
                         .addComponent(mrnaLabel)
-                        .addComponent(mrnaField))
+                        .addComponent(mrnaField)
+                        .addComponent(backButton))
                 .addGroup(gl.createParallelGroup(BASELINE)
                         .addComponent(compLabel)
                         .addComponent(compField))
         );
-
-        pack();
     }
 
     public void history() {
+        hFrame = new JFrame();
         hPanel = new JPanel();
-        hPanel.setLayout(null);
-        add(hPanel);
+        hFrame.setTitle("History");
+
+        var gl = new GroupLayout(hPanel);
+
+        hPanel.setLayout(gl);
+        hFrame.add(hPanel);
+        hFrame.setVisible(true);
+        hFrame.setSize(1000,800);
+
+        // TODO: add back button onto panel in a nice place
+        backButton = new JButton("Back");
+        backButton.addActionListener(new ActionListener() { 
+            @Override 
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    goBack();
+                    kinFrame.dispose();
+                } catch( Exception ex ) {
+                    ex.printStackTrace();
+                }
+            }
+        });
+        
+        gl.setAutoCreateGaps(true);
+        gl.setAutoCreateContainerGaps(true);
+
+        String str = "";
+
+        ArrayList<String> history = calculatorReader.getCalculations();
+        for ( String s : history ) {
+            str += "\n";
+            str += s;
+        }
+
+        historyString = new JLabel();
+        historyString.setText("<html>" + str.replaceAll("<","&lt;").replaceAll(">", "&gt;").replaceAll("\n", "<br/>") + "</html>");
+
+        gl.setHorizontalGroup(gl.createSequentialGroup()
+                .addGroup(gl.createParallelGroup(TRAILING)
+                        .addComponent(historyString))
+        );
+
+        gl.setVerticalGroup(gl.createSequentialGroup()
+                .addGroup(gl.createParallelGroup(BASELINE)
+                        .addComponent(historyString))
+        );
+        
+        hPanel.add(historyString);
     }
     
+    public void goBack() throws Exception {
+        new App();
+    }
 }
+

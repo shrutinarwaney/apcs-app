@@ -1,19 +1,13 @@
+
+1. Enter commands into terminal/git bash
 ` $ javac App.java` 
   
 ` $ java App `
 
-And then choose a calculator by clicking one of the buttons, then enter valid inputs into the text boxes.
+2. Choose a calculator by clicking one of the buttons, then enter valid inputs into the text boxes.
 
+### Kinematic calculator
+Enter a number into 3 separate boxes. Click calculate and the calculator will give you the missing variable.
 
-
-## Folder Structure
-
-The workspace contains two folders by default, where:
-
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
-
-## Dependency Management
-
-The `JAVA DEPENDENCIES` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-pack/blob/master/release-notes/v0.9.0.md#work-with-jar-files-directly).
-# apcs-app
+### DNA converter
+Enter a strand of DNA in the form of nitrogenous bases. Click convert to see the mRNA and the complimentary strand.
